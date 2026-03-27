@@ -24,7 +24,7 @@
                     <div class="hero-search">
                         <i class="fa-solid fa-location-dot"
                             style="color: #FC8019; font-size: 1.2rem; flex-shrink: 0;"></i>
-                        <input type="text" id="landing-city-search" placeholder="Search your city or parking area...">
+                        <input type="text" id="landing-city-search" placeholder="Type city or area name...">
                         <button class="btn-explore" onclick="navigateTo('discovery')">Explore Parking</button>
                     </div>
                 </div>
@@ -178,7 +178,14 @@
                                 <option value="hyderabad">Hyderabad</option>
                                 <option value="bangalore">Bangalore</option>
                                 <option value="bhimavaram">Bhimavaram</option>
+                                <option value="vizag">Vizag</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="mumbai">Mumbai</option>
                             </select>
+                            <button onclick="useCurrentLocation()"
+                                style="width: 100%; border: 1px dashed #FC8019; background: #fff; color: #FC8019; padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: 0.2s ease;">
+                                <i class="fa-solid fa-location-crosshairs"></i> Use Current Location
+                            </button>
                         </div>
                     </div>
                 </aside>
@@ -311,9 +318,42 @@
             </div>
         </section>
 
+        <!-- 💳 Payment Screen -->
+        <section id="payment-view" class="hidden"
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fdfdfd; z-index: 999; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
+            <div
+                style="background: #fff; padding: 40px; border-radius: 24px; box-shadow: var(--shadow-pro); width: 450px; text-align: center;">
+                <h1 style="font-weight: 900; margin-bottom: 5px;">Secure Payment</h1>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Complete your reservation</p>
+                <div style="background: #FFF4EC; padding: 20px; border-radius: 16px; margin-bottom: 30px;">
+                    <span
+                        style="display: block; font-size: 0.9rem; color: #FC8019; font-weight: 700; margin-bottom: 5px;">Amount
+                        to Pay</span>
+                    <b id="pay-amount" style="font-size: 2.5rem; color: #333;">$0.00</b>
+                </div>
+                <div style="text-align: left; margin-bottom: 30px;">
+                    <p style="font-weight: 700; margin-bottom: 12px;">Select Payment Method:</p>
+                    <label
+                        style="display: flex; align-items: center; gap: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; margin-bottom: 10px; cursor: pointer;">
+                        <input type="radio" name="pay-method" checked> UPI (GPay, PhonePe)
+                    </label>
+                    <label
+                        style="display: flex; align-items: center; gap: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; margin-bottom: 10px; cursor: pointer;">
+                        <input type="radio" name="pay-method"> Credit/Debit Card
+                    </label>
+                    <label
+                        style="display: flex; align-items: center; gap: 10px; padding: 15px; border: 1px solid #ddd; border-radius: 12px; cursor: pointer;">
+                        <input type="radio" name="pay-method"> Cash on Arrival
+                    </label>
+                </div>
+                <button id="pay-now-btn" class="btn-primary" style="width: 100%; padding: 16px; font-size: 1.1rem;"
+                    onclick="mockPayNow()">Pay Now</button>
+            </div>
+        </section>
+
         <!-- 🎉 Final Success Screen -->
         <section id="success-view" class="hidden"
-            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; display: flex; align-items: center; justify-content: center;">
+            style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
             <div class="success-modal">
                 <div class="check-circle"><i class="fa-solid fa-check"></i></div>
                 <h1 style="font-weight: 900; margin-bottom: 10px;">Booking Finalized</h1>
@@ -335,11 +375,23 @@
                     </div>
                 </div>
 
+                <div id="receipt"
+                    style="display:none; text-align: left; background: #FFF4EC; border: 1px dashed #FC8019; border-radius: 16px; padding: 25px; margin-bottom: 25px;">
+                    <h2 style="font-weight: 800; color: #FC8019; margin-bottom: 15px;">Booking Confirmed ✅</h2>
+                    <p id="rLocation" style="margin-bottom: 8px; font-weight: 700; color: #333;"></p>
+                    <p id="rSlot" style="margin-bottom: 8px; font-weight: 700; color: #333;"></p>
+                    <p id="rTime" style="margin-bottom: 20px; font-weight: 700; color: #333;"></p>
+                    <button onclick="window.print()"
+                        style="padding: 10px 20px; border-radius: 8px; border: 1px solid #FC8019; background: white; font-weight: 700; color: #FC8019; cursor: pointer;"><i
+                            class="fa-solid fa-print"></i> Download Receipt</button>
+                </div>
+
                 <div style="display: flex; gap: 15px; justify-content: center;">
-                    <button class="btn-primary" onclick="location.reload()">Back to Dashboard</button>
-                    <button
+                    <button class="btn-primary" onclick="viewReceipt()"><i class="fa-solid fa-receipt"></i> View
+                        Receipt</button>
+                    <button onclick="openNavigation(16.5449, 81.5212)"
                         style="border: 1px solid #ddd; background: #fff; padding: 14px 30px; border-radius: 12px; font-weight: 700; cursor: pointer;">
-                        <i class="fa-solid fa-location-arrow"></i> Navigate Now
+                        <i class="fa-solid fa-map-location-dot"></i> Navigate Now
                     </button>
                 </div>
             </div>
@@ -361,6 +413,9 @@
 
     </div>
 
+    <script src="locationHandler.js"></script>
+    <script src="paymentFlow.js"></script>
+    <script src="bookingEnhancements.js"></script>
     <script src="script.js"></script>
 </body>
 

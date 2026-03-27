@@ -308,6 +308,10 @@ function proceedToBook() {
         document.getElementById('final-slot').textContent = state.selectedSlot;
         document.getElementById('final-hub').textContent = state.currentHub.name;
         document.getElementById('success-view').classList.remove('hidden');
+
+        if (typeof showReceipt === 'function') {
+            showReceipt(state.currentHub.name);
+        }
     }, 1500);
 }
 
