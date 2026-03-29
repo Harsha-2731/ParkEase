@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkEase | Authenticaton</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="auth.js"></script>
+    <style>
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-light);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-pro);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--brand-primary);
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 0 auto 20px;
+        }
+
+        .login-card h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--brand-dark);
+        }
+
+        .login-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(252, 128, 25, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--brand-primary);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-login:hover {
+            background: #e67316;
+            transform: translateY(-2px);
+        }
+
+        .btn-guest {
+            width: 100%;
+            background: #fff;
+            color: var(--text-main);
+            border: 1px solid var(--border-subtle);
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+
+        .btn-guest:hover {
+            background: var(--bg-light);
+        }
+        
+        .toggle-link {
+            color: var(--brand-primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">P</div>
+            <h1 id="auth-title">Welcome Back</h1>
+            <p>Find & Book Parking Easily</p>
+
+            <!-- Login Form -->
+            <div id="login-form-container">
+                <form onsubmit="login(event)">
+                    <div class="input-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn-login">Login</button>
+                    <button type="button" class="btn-guest" onclick="guestLogin()">Continue as Guest</button>
+                    <div style="margin-top: 15px;">
+                        <span style="color: var(--text-muted); font-size: 0.9rem;">New here? </span>
+                        <a class="toggle-link" onclick="toggleAuthMode()">Create an account</a>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Registration Form -->
+            <div id="register-form-container" class="hidden">
+                <form onsubmit="register(event)">
+                    <div class="input-group">
+                        <label for="reg-username">Choose Username</label>
+                        <input type="text" id="reg-username" placeholder="Enter a new username" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg-password">Create Password</label>
+                        <input type="password" id="reg-password" placeholder="Enter a password" required>
+                    </div>
+                    <button type="submit" class="btn-login">Register & Login</button>
+                    <div style="margin-top: 15px;">
+                        <span style="color: var(--text-muted); font-size: 0.9rem;">Already registered? </span>
+                        <a class="toggle-link" onclick="toggleAuthMode()">Login instead</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+
+</html>
